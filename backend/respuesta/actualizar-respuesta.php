@@ -2,28 +2,28 @@
 if(isset($_POST)){
     require_once 'conexion.php';
 
-    // Obtener y validar los datos de la pregunta a actualizar
+    // Obtener y validar los datos de la respuesta a actualizar
+    $id_respuesta = isset($_POST['id_respuesta']) ? mysqli_real_escape_string($conexion, $_POST['id_respuesta']) : false;
+    $respuesta = isset($_POST['respuesta']) ? mysqli_real_escape_string($conexion, $_POST['respuesta']) : false;
     $id_pregunta = isset($_POST['id_pregunta']) ? mysqli_real_escape_string($conexion, $_POST['id_pregunta']) : false;
-    $pregunta = isset($_POST['pregunta']) ? mysqli_real_escape_string($conexion, $_POST['pregunta']) : false;
-    $imagen = isset($_POST['imagen']) ? mysqli_real_escape_string($conexion, $_POST['imagen']) : false;
 
     $error = array();
+
+    if(empty($id_respuesta) || !is_numeric($id_respuesta)){
+        $error['id_respuesta'] = "El ID de la respuesta no es válido";
+    }
+
+    if(empty($respuesta)){
+        $error['respuesta'] = "La respuesta no puede estar vacía";
+    }
 
     if(empty($id_pregunta) || !is_numeric($id_pregunta)){
         $error['id_pregunta'] = "El ID de la pregunta no es válido";
     }
 
-    if(empty($pregunta)){
-        $error['pregunta'] = "La pregunta no puede estar vacía";
-    }
-
-    if(empty($imagen)){
-        $error['imagen'] = "La imagen no puede estar vacía";
-    }
-
-    // Si no hay errores, actualizar la pregunta en la base de datos
+    // Si no hay errores, actualizar la respuesta en la base de datos
     if (count($error) == 0){
-        $sql = "UPDATE preguntas SET pregunta = '$pregunta', imagen = '$imagen' WHERE id_pregunta = $id_pregunta";
+        $sql = "UPDATE respuestas SET respuesta = '$respuesta', id_pregunta = '$id_pregunta' WHERE id_respuesta = $id_respuesta";
 
         // Ejecutar la consulta SQL
         $query = mysqli_query($conexion, $sql);
@@ -31,7 +31,7 @@ if(isset($_POST)){
         if ($query) {
             $respuesta = array(
                 'status' => 'success',
-                'message' => 'Pregunta actualizada exitosamente'
+                'message' => 'Respuesta actualizada exitosamente'
             );
         } else {
             $respuesta = array(
