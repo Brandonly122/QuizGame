@@ -18,7 +18,7 @@ if(isset($_POST)){
 
     // Si no hay errores, crear la respuesta en la base de datos
     if (count($error) == 0){
-        $sql = "INSERT INTO respuestas (respuesta, id_pregunta) VALUES ('$respuesta', '$id_pregunta')";
+        $sql = "INSERT INTO answersQuizz (descriptionAnswerQuizz, idQuestion) VALUES ('$respuesta', '$id_pregunta')";
 
         // Ejecutar la consulta SQL
         $query = mysqli_query($conexion, $sql);
