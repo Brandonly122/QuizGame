@@ -10,15 +10,24 @@
         $(document).ready(function(){
             $('#crearUsuarioForm').hide();
             $('#eliminarUsuarioForm').hide(); // Oculta el formulario de eliminar al cargar la página
+            $('#jugarForm').hide(); // Oculta el formulario de jugar al cargar la página
 
             $('#crearUsuarioLink').click(function(){
                 $('#crearUsuarioForm').slideToggle();
                 $('#eliminarUsuarioForm').hide(); // Oculta el formulario de eliminar si se muestra
+                $('#jugarForm').hide(); // Oculta el formulario de jugar si se muestra
             });
 
             $('#eliminarUsuarioLink').click(function(){
                 $('#eliminarUsuarioForm').slideToggle();
                 $('#crearUsuarioForm').hide(); // Oculta el formulario de crear si se muestra
+                $('#jugarForm').hide(); // Oculta el formulario de jugar si se muestra
+            });
+
+            $('#jugarLink').click(function(){
+                $('#jugarForm').slideToggle();
+                $('#crearUsuarioForm').hide(); // Oculta el formulario de crear si se muestra
+                $('#eliminarUsuarioForm').hide(); // Oculta el formulario de eliminar si se muestra
             });
         });
     </script>
@@ -31,34 +40,46 @@
         <ul>
             <li><a href="#" id="crearUsuarioLink">Crear Usuario</a></li>
             <li><a href="#" id="eliminarUsuarioLink">Eliminar Usuario</a></li> <!-- Cambia el href a # -->
-            <li><a href="mostrar_usuario.php">Mostrar Usuarios</a></li>
-            <li><a href="actualizar_usuario.php">Actualizar Usuario</a></li>
+            <li><a href="#" id="jugarLink">Juguemos</a></li> <!-- Cambia el href a # -->
         </ul>
     </nav>
-    <main class="imgPrincipal"> 
       
     <!-- Formulario para crear un usuario -->
     <div id="crearUsuarioForm">
         <h2>Crear Nuevo Usuario</h2>
-        <form action="crear-usuario.php" method="post">
-            <label for="apodo">Apodo:</label>
-            <input type="text" id="apodo" name="apodo"><br><br>
-            <input type="submit" value="Crear Usuario">
+        <form action="./backend/user/crear-usuario.php" method="post">
+            <label for="name">Apodo:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="password">Contraseña:</label><br><br>
+            <input type="password" id="password" name="password"><br><br>
+            <input type="submit" value="crear">
         </form>
     </div>
-
+    
     <!-- Formulario para eliminar un usuario -->
     <div id="eliminarUsuarioForm">
         <h2>Eliminar Usuario</h2>
-        <form action="eliminar_usuario.php" method="post">
-            <label for="apodoEliminar">Apodo a Eliminar:</label>
-            <input type="text" id="apodoEliminar" name="apodoEliminar"><br><br>
+        <form action="./backend/user/eliminar-usuario.php" method="post">
+            <label for="nombreUsuarioEliminar">Nombre del Usuario a Eliminar:</label>
+            <input type="text" id="nombreUsuarioEliminar" name="name"><br><br>
             <input type="submit" value="Eliminar Usuario">
         </form>
     </div>
-
+    
+    <!-- Formulario para jugar -->
+    <div id="jugarForm">
+        <h2>Juguemos</h2>
+        <form action="./jugar.php" method="post">
+            <label for="loginName">Nombre:</label>
+            <input type="text" id="loginName" name="loginName"><br><br>
+            <label for="loginPassword">Contraseña:</label><br><br>
+            <input type="password" id="loginPassword" name="loginPassword"><br><br>
+            <input type="submit" value="Jugar">
+        </form>
+    </div>
+    
     <main class="imgPrincipal"> 
-        <img src="./imagen/quizz.jpg" alt="">
+        <img src="./frontend/public/img/quizz.jpg" alt="">
     </main>
 
 </body>

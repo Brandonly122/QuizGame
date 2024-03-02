@@ -1,7 +1,5 @@
 <?php
-
 $conexion = mysqli_connect("localhost", "root", "", "quizz");
-
 
 if (!$conexion) {
     die("La conexión a la base de datos falló: " . mysqli_connect_error());
@@ -9,29 +7,35 @@ if (!$conexion) {
 
 $errores = array();
 
+// Verificar si se recibió el nombre del usuario a eliminar
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["name"])) {
+    $name = mysqli_real_escape_string($conexion, $_POST["name"]);
 
-if (empty($id_user) || !is_numeric($id_user)) {
-    $errores['id_user'] = "ID de usuario no válido";
-} else {
-    $id_user_valido = true;
-}
+    // Verificar si el nombre de usuario es válido
+    if (empty($name)) {
+        $errores['name'] = "El nombre de usuario no puede estar vacío";
+    }
 
+    // Si no hay errores, proceder con la eliminación del usuario
+    if (empty($errores)) {
+        $sql = "DELETE FROM Usuario WHERE name = '$name'";
+        $eliminar = mysqli_query($conexion, $sql);
 
-if (empty($errores)) {
-    $sql = "DELETE FROM user WHERE id_user = $id_user";
-    $eliminar = mysqli_query($conexion, $sql);
-
-    if ($eliminar) {
-        echo "¡Usuario eliminado exitosamente!";
+        if ($eliminar) {
+            if (mysqli_affected_rows($conexion) > 0) {
+                echo "¡Usuario eliminado exitosamente!";
+            } else {
+                echo "Usuario no encontrado";
+            }
+        } else {
+            echo "Error al eliminar el usuario: " . mysqli_error($conexion);
+        }
     } else {
-        echo "Error al eliminar el usuario: " . mysqli_error($conexion);
-    }
-} else {
-    foreach ($errores as $val) {
-        echo $val . '<br>';
+        foreach ($errores as $val) {
+            echo $val . '<br>';
+        }
     }
 }
-
 
 mysqli_close($conexion);
 ?>

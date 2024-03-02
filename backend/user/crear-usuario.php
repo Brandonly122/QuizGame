@@ -1,47 +1,43 @@
 <?php
-
 $conexion = mysqli_connect("localhost", "root", "", "quizz");
-
 
 if (!$conexion) {
     die("La conexión a la base de datos falló: " . mysqli_connect_error());
 }
 
-$errores = array();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = mysqli_real_escape_string($conexion, $_POST["name"]);
+    $password = mysqli_real_escape_string($conexion, $_POST["password"]);
 
-if (empty($name)) {
-    $errores['name'] = "El nombre no puede estar vacío";
-}
+    $errores = array();
 
-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errores['email'] = "El correo electrónico no es válido";
-}
+    if (empty($name)) {
+        $errores['name'] = "El nombre no puede estar vacío";
+    }
 
-if (empty($password)) {
-    $errores['password'] = "La contraseña no puede estar vacía";
-} else {
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-}
-
-if (!isset($isAdmin) || !is_numeric($isAdmin)) {
-    $errores['isAdmin'] = "El valor de isAdmin no es válido";
-}
-
-if (empty($errores)) {
-    $sql = "INSERT INTO user (name, email, password, isAdmin) VALUES ('$name', '$email', '$hashed_password', $isAdmin)";
-    $guardar = mysqli_query($conexion, $sql);
-
-    if ($guardar) {
-        echo "Usuario creado exitosamente.";
+    if (empty($password)) {
+        $errores['password'] = "La contraseña no puede estar vacía";
     } else {
-        echo "Error al crear el usuario: " . mysqli_error($conexion);
+        // Validar la fortaleza de la contraseña si es necesario
+        // por ejemplo, verificar longitud, caracteres especiales, etc.
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     }
-} else {
-    foreach ($errores as $val) {
-        echo $val . '<br>';
+
+    if (empty($errores)) {
+        $sql = "INSERT INTO Usuario (name, password) VALUES ('$name', '$hashed_password')";
+        $crear = mysqli_query($conexion, $sql);
+
+        if ($crear) {
+            echo "Usuario creado exitosamente.";
+        } else {
+            echo "Error al crear el usuario: " . mysqli_error($conexion);
+        }
+    } else {
+        foreach ($errores as $val) {
+            echo $val . '<br>';
+        }
     }
 }
-
 
 mysqli_close($conexion);
 ?>

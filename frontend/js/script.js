@@ -5,7 +5,7 @@ $(document).ready(function () {
   if ($("#list-preguntas")) {
     $.ajax({
       type: "GET",
-      url: "./php/mostrar-empleado.php",
+      url: "/backend/user/mostrar-usuario.php",
       success: function (data) {
         $("#tabla").html(data);
         $(".update").on("click", function (e) {
