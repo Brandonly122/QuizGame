@@ -1,0 +1,86 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #930be7;
+}
+
+header {
+    background-color: #3907a6;
+    color: rgb(247, 247, 247);
+    text-align: center;
+    padding: 20px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #13cf84;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #2501c4;
+}
+
+main {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Estilos específicos para el botón "Jugar" */
+#jugar {
+    font-size: 36px; /* Hacer el texto más grande */
+    padding: 20px 40px; /* Aumentar el padding para hacer el botón más grande */
+    background-color: #20c826;
+    color: rgb(248, 250, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block; /* Convertir el enlace en un elemento de bloque */
+    margin: 0 auto; /* Centrar horizontalmente */
+    text-align: center; /* Alinear texto al centro */
+    width: fit-content; /* Ajustar el ancho al contenido */
+}
+
+#jugar:hover {
+    background-color: #09ed37;
+}
+
+#configurar-preguntas {
+    display: block;
+    background-color: #0551a3;
+    color: #fdfdfd;
+    padding: 10px 20px;
+    border-radius: 5px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-decoration: none;
+}
+
+#configurar-preguntas:hover {
+    background-color: #0e36d7;
+}
+
+
+.ImgJuego img {
+    display: block;
+    margin: 0 auto;
+    width: 14%; /* Ajusta este valor según lo necesites */
+    border-radius: 12%;
+    margin-top: 20px;
+}
+

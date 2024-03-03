@@ -28,8 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $usuario = mysqli_fetch_assoc($resultado);
             // Verificar la contraseña
             if (password_verify($password, $usuario['password'])) {
-                echo "Inicio de sesión exitoso.";
-                // Aquí puedes redirigir al usuario a la página deseada después del inicio de sesión.
+                // Redirigir al usuario a la página de juego
+                header("Location: ../../frontend/html/juego/juego.html");
+                exit; // Asegúrate de salir del script después de redirigir
             } else {
                 echo "Contraseña incorrecta.";
             }
