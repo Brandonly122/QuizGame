@@ -17,20 +17,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($password)) {
         $errores['password'] = "La contraseña no puede estar vacía";
-    } else {
-        // Validar la fortaleza de la contraseña si es necesario
-        // por ejemplo, verificar longitud, caracteres especiales, etc.
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     }
 
     if (empty($errores)) {
-        $sql = "INSERT INTO Usuario (name, password) VALUES ('$name', '$hashed_password')";
-        $crear = mysqli_query($conexion, $sql);
+        // Buscar el usuario en la base de datos
+        $sql = "SELECT * FROM Usuario WHERE name = '$name'";
+        $resultado = mysqli_query($conexion, $sql);
 
-        if ($crear) {
-            echo "Usuario creado exitosamente.";
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            $usuario = mysqli_fetch_assoc($resultado);
+            // Verificar la contraseña
+            if (password_verify($password, $usuario['password'])) {
+                echo "Inicio de sesión exitoso.";
+                // Aquí puedes redirigir al usuario a la página deseada después del inicio de sesión.
+            } else {
+                echo "Contraseña incorrecta.";
+            }
         } else {
-            echo "Error al crear el usuario: " . mysqli_error($conexion);
+            echo "Usuario no encontrado.";
         }
     } else {
         foreach ($errores as $val) {
