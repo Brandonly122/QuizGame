@@ -1,51 +1,25 @@
 <?php
-if(isset($_POST)){
-    require_once 'conexion.php';
+include('conexion.php');
 
-    // Obtener y validar los datos de la respuesta a crear
-    $respuesta = isset($_POST['respuesta']) ? mysqli_real_escape_string($conexion, $_POST['respuesta']) : false;
-    $id_pregunta = isset($_POST['id_pregunta']) ? mysqli_real_escape_string($conexion, $_POST['id_pregunta']) : false;
+// Verificar si se ha enviado el formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar si se ha proporcionado una respuesta, una opción de respuesta y la pregunta asociada
+    if (!empty($_POST["respuesta"]) && !empty($_POST["opcionRespuesta"]) && !empty($_POST["idPregunta"])) {
+        // Escapar la respuesta y la opción de respuesta para evitar inyección SQL
+        $respuesta = mysqli_real_escape_string($con, $_POST["respuesta"]);
+        $opcionRespuesta = mysqli_real_escape_string($con, $_POST["opcionRespuesta"]);
+        $idPregunta = mysqli_real_escape_string($con, $_POST["idPregunta"]);
 
-    $error = array();
+        // Insertar la respuesta en la base de datos
+        $sql = "INSERT INTO respuestas (descripcionRespuesta, opcionRespuesta, idQuestion) VALUES ('$respuesta', '$opcionRespuesta', '$idPregunta')";
 
-    if(empty($respuesta)){
-        $error['respuesta'] = "La respuesta no puede estar vacía";
-    }
-
-    if(empty($id_pregunta) || !is_numeric($id_pregunta)){
-        $error['id_pregunta'] = "El ID de la pregunta no es válido";
-    }
-
-    // Si no hay errores, crear la respuesta en la base de datos
-    if (count($error) == 0){
-        $sql = "INSERT INTO answersQuizz (descriptionAnswerQuizz, idQuestion) VALUES ('$respuesta', '$id_pregunta')";
-
-        // Ejecutar la consulta SQL
-        $query = mysqli_query($conexion, $sql);
-
-        if ($query) {
-            $respuesta = array(
-                'status' => 'success',
-                'message' => 'Respuesta creada exitosamente'
-            );
+        if (mysqli_query($con, $sql)) {
+            echo "La respuesta se ha creado correctamente.";
         } else {
-            $respuesta = array(
-                'status' => 'error',
-                'code' => 500,
-                'message' => 'Error en la consulta SQL: ' . mysqli_error($conexion)
-            );
+            echo "Error al crear la respuesta: " . mysqli_error($con);
         }
     } else {
-        // Si hay errores en los datos, construir respuesta de error
-        $respuesta = array(
-            'status' => 'error',
-            'code' => 400,
-            'message' => 'Error en los datos',
-            'error' => $error
-        );
+        echo "Por favor, proporcione una respuesta, una opción de respuesta y la pregunta asociada.";
     }
-
-    // Devolver respuesta como JSON
-    echo json_encode($respuesta);
 }
 ?>

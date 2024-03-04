@@ -12,7 +12,7 @@ CREATE TABLE Preguntas (
 CREATE TABLE respuestas (
     idRespuesta INT PRIMARY KEY AUTO_INCREMENT,
     descripcionRespuesta VARCHAR(4096) NOT NULL,
+    opcionRespuesta CHAR(1) NOT NULL,
     idQuestion INT NOT NULL,
     FOREIGN KEY (idQuestion) REFERENCES Preguntas(idPregunta)
 );
-

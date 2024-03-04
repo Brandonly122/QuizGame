@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Pregunta</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenido, Administrador</h1>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="#" id="eliminarUsuarioLink">Eliminar Usuario</a>
+                <div id="eliminarUsuarioForm">
+                    <h2>Eliminar Usuario</h2>
+                    <form action="../../../backend/user/eliminar-usuario.php" method="post">
+                        <label for="nombreUsuarioEliminar">Nombre del Usuario a Eliminar:</label>
+                        <input type="text" id="nombreUsuarioEliminar" name="name"><br><br>
+                        <input type="submit" value="Eliminar Usuario">
+                    </form>
+                </div>
+            </li>
+            <li>
+                <a href="#" id="crearPreguntaLink">Crear Pregunta</a>
+                <div id="crearPreguntaForm" style="display:none;">
+                    <h2>Crear Pregunta</h2>
+                    <form action="../../../backend/pregunta/crear-pregunta.php" method="post">
+                        <label for="pregunta">Pregunta:</label><br>
+                        <input type="text" id="pregunta" name="pregunta"><br><br>
+                        <label for="respuestaA">Ingrese respuesta de A:</label><br>
+                        <input type="text" id="respuestaA" name="respuestaA"><br><br>
+                        <label for="respuestaB">Ingrese respuesta de B:</label><br>
+                        <input type="text" id="respuestaB" name="respuestaB"><br><br>
+                        <label for="respuestaC">Ingrese respuesta de C:</label><br>
+                        <input type="text" id="respuestaC" name="respuestaC"><br><br>
+                        <label for="respuestaCorrecta">Cuál es la respuesta correcta?</label><br>
+                        <select id="respuestaCorrecta" name="respuestaCorrecta">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                        </select><br><br>
+                        <input type="submit" value="Crear">
+                    </form>
+                </div>
+            </li>
+            <li>
+                <a href="#">Opciones de Preguntas</a>
+                <ul class="sub-menu">
+                    <li><a href="#">Eliminar Preguntas</a></li>
+                    <li><a href="#">Mostrar Preguntas</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#eliminarUsuarioForm').hide();
+            $('#crearPreguntaForm').hide();
+
+            $('#eliminarUsuarioLink').click(function(){
+                $('#eliminarUsuarioForm').slideToggle();
+                $('#crearPreguntaForm').hide(); // Oculta el formulario de crear pregunta si se muestra
+            });
+
+            $('#crearPreguntaLink').click(function(){
+                $('#crearPreguntaForm').slideToggle();
+                $('#eliminarUsuarioForm').hide(); // Oculta el formulario de eliminar usuario si se muestra
+            });
+        });
+    </script>
+</body>
+</html>

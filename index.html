@@ -19,16 +19,19 @@
                 $('#jugarForm').hide(); // Oculta el formulario de jugar si se muestra
             });
 
-            $('#eliminarUsuarioLink').click(function(){
-                $('#eliminarUsuarioForm').slideToggle();
-                $('#crearUsuarioForm').hide(); // Oculta el formulario de crear si se muestra
-                $('#jugarForm').hide(); // Oculta el formulario de jugar si se muestra
-            });
 
             $('#jugarLink').click(function(){
                 $('#jugarForm').slideToggle();
                 $('#crearUsuarioForm').hide(); // Oculta el formulario de crear si se muestra
                 $('#eliminarUsuarioForm').hide(); // Oculta el formulario de eliminar si se muestra
+
+            });
+
+            $('#adminLink').click(function(){
+                $('#adminLoginForm').slideToggle();
+                $('#crearUsuarioForm').hide(); // Oculta el formulario de crear si se muestra
+                $('#eliminarUsuarioForm').hide(); // Oculta el formulario de eliminar si se muestra
+                $('#jugarForm').hide(); // Oculta el formulario de jugar si se muestra
             });
         });
     </script>
@@ -40,8 +43,8 @@
     <nav>
         <ul>
             <li><a href="#" id="crearUsuarioLink">Crear Usuario</a></li>
-            <li><a href="#" id="eliminarUsuarioLink">Eliminar Usuario</a></li> <!-- Cambia el href a # -->
             <li><a href="#" id="jugarLink">Juguemos</a></li> <!-- Cambia el href a # -->
+            <li><a href="#" id="adminLink">Administrador</a></li> <!-- Nuevo enlace para el administrador -->
         </ul>
     </nav>
       
@@ -56,15 +59,7 @@
             <input type="submit" value="crear">
         </form> 
     </div>
-    <div id="eliminarUsuarioForm">
-        <h2>Eliminar Usuario</h2>
-        <form action="./backend/user/eliminar-usuario.php" method="post">
-            <label for="nombreUsuarioEliminar">Nombre del Usuario a Eliminar:</label>
-            <input type="text" id="nombreUsuarioEliminar" name="name"><br><br>
-            <input type="submit" value="Eliminar Usuario">
-        </form>
-    </div>
-    
+   
     <div id="jugarForm">
         <h2>Juguemos</h2>
         <form action="./backend/user/login-usuario.php" method="post">
@@ -75,6 +70,17 @@
             <input type="submit" value="Jugar">
 
     </form>
+    </div>
+
+    <div id="adminLoginForm">
+        <h2>Inicio de Sesión de Administrador</h2>
+        <form action="./backend/user/admin-usuario.php" method="post">
+            <label for="adminName">Nombre de Usuario:</label>
+            <input type="text" id="adminName" name="adminName"><br><br>
+            <label for="adminPassword">Contraseña:</label><br><br>
+            <input type="password" id="adminPassword" name="adminPassword"><br><br>
+            <input type="submit" value="Iniciar Sesión">
+        </form>
     </div>
     
     

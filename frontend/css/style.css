@@ -81,3 +81,9 @@ a:hover {
     margin: 20px ;
 }
 
+#adminLoginForm{
+    background-color: #670aa0;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px 0;
+}

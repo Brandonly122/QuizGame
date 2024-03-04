@@ -1,51 +1,23 @@
 <?php
-if(isset($_POST)){
-    require_once 'conexion.php';
+include('conexion.php');
 
-    // Obtener y validar datos
-    $pregunta = isset($_POST['pregunta']) ? mysqli_real_escape_string($con, $_POST['pregunta']) : false;
-    $imagen = isset($_POST['imagen']) ? mysqli_real_escape_string($con, $_POST['imagen']) : false;
+// Verificar si se ha enviado el formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar si se ha proporcionado una pregunta
+    if (!empty($_POST["pregunta"])) {
+        // Escapar la pregunta para evitar inyección SQL
+        $pregunta = mysqli_real_escape_string($con, $_POST["pregunta"]);
 
-    $error = array();
+        // Insertar la pregunta en la base de datos
+        $sql = "INSERT INTO Preguntas (descripcionPregunta) VALUES ('$pregunta')";
 
-    if(empty($pregunta)){
-        $error['pregunta'] = "La pregunta no puede estar vacía";
-    }
-
-    if(empty($imagen)){
-        $error['imagen'] = "La imagen no puede estar vacía";
-    }
-
-    // Si no hay errores, insertar la pregunta en la base de datos
-    if (count($error) == 0){
-        $sql = "INSERT INTO preguntas VALUES (null, '$pregunta', '$imagen')";
-
-        // Ejecutar la consulta SQL
-        $query = mysqli_query($con, $sql);
-
-        if ($query) {
-            $respuesta = array(
-                'status' => 'success',
-                'message' => 'Pregunta creada exitosamente'
-            );
+        if (mysqli_query($con, $sql)) {
+            echo "La pregunta se ha creado correctamente.";
         } else {
-            $respuesta = array(
-                'status' => 'error',
-                'code' => 500,
-                'message' => 'Error en la consulta SQL: ' . mysqli_error($con)
-            );
+            echo "Error al crear la pregunta: " . mysqli_error($con);
         }
     } else {
-        // Si hay errores en los datos, construir respuesta de error
-        $respuesta = array(
-            'status' => 'error',
-            'code' => 400,
-            'message' => 'Error en los datos',
-            'error' => $error
-        );
+        echo "Por favor, proporcione una pregunta.";
     }
-
-    // Devolver respuesta como JSON
-    echo json_encode($respuesta);
 }
 ?>
