@@ -16,3 +16,4 @@ CREATE TABLE respuestas (
     idQuestion INT NOT NULL,
     FOREIGN KEY (idQuestion) REFERENCES Preguntas(idPregunta)
 );
+

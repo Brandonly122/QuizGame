@@ -1,23 +1,32 @@
 <?php
-include('conexion.php');
+include('../conexion.php');
 
-// Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar si se ha proporcionado una pregunta
-    if (!empty($_POST["pregunta"])) {
-        // Escapar la pregunta para evitar inyección SQL
-        $pregunta = mysqli_real_escape_string($con, $_POST["pregunta"]);
+    $pregunta = mysqli_real_escape_string($con, $_POST["pregunta"]);
+    $res1= mysqli_real_escape_string($con, $_POST["respuestaA"]);
+    $res2= mysqli_real_escape_string($con, $_POST["respuestaB"]);
+    $res3= mysqli_real_escape_string($con, $_POST["respuestaC"]);
+    $val= mysqli_real_escape_string($con, $_POST["respuestaCorrecta"]);
 
-        // Insertar la pregunta en la base de datos
-        $sql = "INSERT INTO Preguntas (descripcionPregunta) VALUES ('$pregunta')";
+    $errores = array();
 
-        if (mysqli_query($con, $sql)) {
-            echo "La pregunta se ha creado correctamente.";
+    if (empty($pregunta)) {
+        $errores['pregunta'] = "La pregunta no puede estar vacío";
+    }
+  
+    if (empty($errores)) {
+        $sql = "INSERT INTO Preguntas (descripcionPregunta) VALUES ('$pregunta');
+        CALL proc_insertar_respuestas((SELECT MAX(idPregunta) FROM preguntas), '$res1', '$res2', '$res3', '$val');";
+        
+
+        if ($con->multi_query($sql) === TRUE) {
+            echo "New record created successfully";
         } else {
-            echo "Error al crear la pregunta: " . mysqli_error($con);
+            echo "Error: " . $sql . "<br>" . $mysqli->error;
         }
     } else {
         echo "Por favor, proporcione una pregunta.";
     }
 }
+$con->close();
 ?>

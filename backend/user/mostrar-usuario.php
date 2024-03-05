@@ -1,5 +1,6 @@
 <?php
 include('../conexion.php');
+$mensaje = ""; // Inicializamos la variable $mensaje con un valor predeterminado
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = mysqli_real_escape_string($con, $_POST["name"]);
@@ -24,17 +25,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $crear = mysqli_query($con, $sql);
 
         if ($crear) {
-            echo "Usuario creado exitosamente.";
+            $mensaje = "Usuario creado exitosamente.";
         } else {
-            echo "Error al crear el usuario: " . mysqli_error($con);
+            $mensaje = "Error al crear el usuario: " . mysqli_error($con);
         }
     } else {
         foreach ($errores as $val) {
-            echo $val . '<br>';
+            $mensaje .= $val . '<br>';
         }
     }
 }
 
 mysqli_close($con);
 ?>
-

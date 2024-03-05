@@ -1,26 +1,49 @@
 <?php
-require_once 'conexion.php';
+include('../conexion.php');
 
-$query = "SELECT * FROM preguntas";
-$resultado = mysqli_query($conexion, $query);
+$pregunta = "";
+$res1 = "";
+$res2 = "";
+$res3 = "";
 
-echo '<h1>Preguntas</h1>
-<table class="table">
-<thead>
-<tr>
-<th scope="col">ID</th>
-<th scope="col">Pregunta</th> <!-- Corregido aquí -->
-<th scope="col">Imagen</th>
-</tr>
-</thead>
-<tbody>';
+$sql = "select * from preguntas p inner join respuestas r on p.idPregunta = r.idQuestion ";
+$result = mysqli_query($con, $sql);
 
-while($pregunta = mysqli_fetch_assoc($resultado)){ // Corregido aquí
-    echo '<tr>
-    <th scope="row">'.$pregunta['id'].'</th> <!-- Corregido aquí -->
-    <td>'.$pregunta['pregunta'].'</td> <!-- Corregido aquí -->
-    <td>'.$pregunta['imagen'].'</td>
-    </tr>';
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "
+        Pregunta: " . $row["descripcionPregunta"]. " - Respuesta 1: " . $row["descripcionRespuesta"].  "<br>
+        
+
+        <div class='container'>
+            <h2 class='question'>".$row['descripcionPregunta']."</h2>
+            <ul class='options'>
+                <li class='option'>
+                    <input type='radio' name='arrival_time' value='1hour'>
+                    <label for='1hour'>".$row['descripcionRespuesta']."</label>
+                </li>
+                <li class='option'>
+                    <input type='radio' name='arrival_time' value='15min'>
+                    <label for='15min'>Al menos 15 minutos antes de que comience la clase</label>
+                </li>
+                <li class='option'>
+                    <input type='radio' name='arrival_time' value='10min'>
+                    <label for='10min'>10 minutos antes de que comience la clase (10 minutos es un poco rápido para terminar la configuración)</label>
+                </li>
+                <li class='option'>
+                    <input type='radio' name='arrival_time' value='5min'>
+                    <label for='5min'>Al menos 5 minutos antes de que comience la clase</label>
+                </li>
+            </ul>
+            <button class='submit-button'>Continuar</button>
+        </div>
+
+        ";
+    }
+} else {
+    echo "No se encontraron preguntas";
 }
-echo '</tbody></table>';
+mysqli_close($con);
 ?>
+
+
