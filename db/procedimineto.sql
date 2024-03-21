@@ -1,4 +1,4 @@
-
+Delimiter//
 create procedure `proc_insertar_respuestas`
 (in idQuestion int, 
 in respuesta1 varchar(255), 
@@ -21,6 +21,6 @@ begin
     else
         insert into respuestas (idQuestion, descripcionRespuesta, opcionRespuesta) values (idQuestion, respuesta3, 'F');
     end if;
-end;
-
+end //
+Delimiter ;
  
